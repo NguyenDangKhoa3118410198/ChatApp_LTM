@@ -47,11 +47,11 @@ public class Client extends javax.swing.JFrame {
                         received = received.substring(9);
                         dlm.clear();
 
-                        StringTokenizer st = new StringTokenizer(received, ",");//tach theo ,
+                        StringTokenizer st = new StringTokenizer(received, ",");
                         while (st.hasMoreTokens()) {
-                            String u = st.nextToken();
-                            if (!userName.equals(u)) {
-                                dlm.addElement(u);// them vao ds nguoi dung
+                            String tmp = st.nextToken();
+                            if (!userName.equals(tmp)) {
+                                dlm.addElement(tmp);
                             }
                         }
 
@@ -67,7 +67,6 @@ public class Client extends javax.swing.JFrame {
                 } catch (Exception e) {
                     break;
                 }
-
             }
         }
     }
@@ -203,7 +202,7 @@ public class Client extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Content chat is empty");
             } else {
                 String chat2 = chat1;
-                String clientuser = clientUser;//user dang duoc chon de chat
+                String clientuser = clientUser;
                 if (!clientUser.isEmpty()) {
                     chat1 = "#user" + clientuser + ":" + chat2;
                     out.writeUTF(chat1);
@@ -211,13 +210,6 @@ public class Client extends javax.swing.JFrame {
                     txtChat.setText("");
                     txtchatContent.append("< You send to " + clientuser + " > " + chat2 + "\n");
                 }
-//                else {
-//                    allUser.setSelectedIndex(0);
-//                    clientUser = allUser.getSelectedValue();
-////                    out.writeUTF(m);
-////                    txtChat.setText("");
-////                    txtchatContent.append("< You to All > " + mm + "\n");
-//                }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "User not exist.");

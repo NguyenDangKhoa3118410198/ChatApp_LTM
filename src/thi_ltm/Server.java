@@ -37,9 +37,9 @@ public class Server extends javax.swing.JFrame {
         public void run() {
             while (true) {
                 try {
-                    Socket s = ss.accept(); //server chap nhan ket noi tu client qua port 1108
+                    Socket s = ss.accept();
                     String username = new DataInputStream(s.getInputStream()).readUTF();
-                    if (listClient.containsKey(username)) {     //kiem tra username da ton tai trong hashmap hay chua
+                    if (listClient.containsKey(username)) {
                         DataOutputStream out = new DataOutputStream(s.getOutputStream());
                         DataInputStream in = new DataInputStream(s.getInputStream());
                         out.writeUTF("Username Are Already Registered !!!");
@@ -52,12 +52,12 @@ public class Server extends javax.swing.JFrame {
                         DataOutputStream out = new DataOutputStream(s.getOutputStream());
                         DataInputStream in = new DataInputStream(s.getInputStream());
                         count++;
-                        
+
                         listClient.put(username, s);
-                        listClientJoined.append(username + " joined \n");   //hien thi ds client joined
-                        if(count > 1){//moi them vao//////////////////
-                            out.writeUTF("#option" + username + ";" + s); 
-                        }///////////////////////
+                        listClientJoined.append(username + " joined \n");
+                        if (count > 1) {
+                            out.writeUTF("#option" + username + ";" + s);
+                        }
                         out.writeUTF("");
 
                         new MsgRead(s, username, out, in).start();
@@ -89,24 +89,21 @@ public class Server extends javax.swing.JFrame {
                 try {
                     DataInputStream in = new DataInputStream(s.getInputStream());
                     String i = in.readUTF();
-                    if (i.equals("disconnected")) {//nguoi dung tat cua so window
+                    if (i.equals("disconnected")) {
                         listClient.remove(username);
                         listClientJoined.append(username + " disconnected! \n");
                         count--;
 
                         new PrepareClientList().start();
-                        Set<String> k = listClient.keySet();    //lay key cua hashmap
-                        Iterator itr = k.iterator();    //duyet tung phan tu cua Set
-                        while (itr.hasNext()) { //kiem tra co con phan tu tiep theo khong
+                        Set<String> k = listClient.keySet();
+                        Iterator itr = k.iterator();
+                        while (itr.hasNext()) {
                             String key = (String) itr.next();
-                            if (!key.equalsIgnoreCase(username)) {  //kiem tra chuoi khong phan biet chu hoa va chu thuong
+                            if (!key.equalsIgnoreCase(username)) {
                                 try {
-                                    new DataOutputStream(((Socket) listClient.get(key)).getOutputStream()).writeUTF(i);//gui disconnected de xoa lich su chat
+                                    new DataOutputStream(((Socket) listClient.get(key)).getOutputStream()).writeUTF(i);
                                 } catch (Exception e) {
                                     System.out.println(e);
-//                                    listClient.remove(key);
-//                                    listClientJoined.append(key + ": disconnected!");
-//                                    new PrepareClientList().start();
                                 }
                             }
                         }
@@ -115,18 +112,14 @@ public class Server extends javax.swing.JFrame {
                         s.close();
                     } else if (i.contains("#user")) {
                         i = i.substring(5);
-                        StringTokenizer st = new StringTokenizer(i, ":");//cat chuoi theo dau :
+                        StringTokenizer st = new StringTokenizer(i, ":");
                         String otherUser = st.nextToken();
                         String content = st.nextToken();
                         try {
                             new DataOutputStream(((Socket) listClient.get(otherUser)).getOutputStream()).writeUTF("< " + username + " to " + otherUser + " > " + content);
                         } catch (Exception e) {
-                            //System.out.println(e);
-                            listClient.remove(otherUser);
-                            listClientJoined.append(otherUser + ": disconnected!");
-                            new PrepareClientList().start();
+                            System.out.println(e);
                         }
-
                     } else {
                     }
                 } catch (Exception ex) {
@@ -155,7 +148,7 @@ public class Server extends javax.swing.JFrame {
                 }
 
                 if (users.length() != 0) {
-                    users = users.substring(0, users.length() - 1);// ds user
+                    users = users.substring(0, users.length() - 1);
                 }
                 itr = userKey.iterator();
                 while (itr.hasNext()) {
@@ -164,8 +157,6 @@ public class Server extends javax.swing.JFrame {
                         new DataOutputStream(((Socket) listClient.get(key)).getOutputStream()).writeUTF("#listUser" + users);
                     } catch (Exception e) {
                         System.out.println(e);
-//                        listClient.remove(key);
-//                        listClientJoined.append(key+ ": removed!");
                     }
                 }
             } catch (Exception ex) {

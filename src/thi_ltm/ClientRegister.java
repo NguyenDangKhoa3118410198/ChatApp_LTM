@@ -104,7 +104,7 @@ public class ClientRegister extends javax.swing.JFrame {
 
     private void btnConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConnectActionPerformed
         try {
-            String regex = "^[A-Za-z]\\w{1,20}$"; //kiem tra chu dau phai la chu, khong co ki tu dac biet va co do dai tu 2 den 20
+            String regex = "^[A-Za-z]\\w{1,20}$";
             Pattern p = Pattern.compile(regex);
 
             String username = txtUsername.getText();
@@ -122,26 +122,22 @@ public class ClientRegister extends javax.swing.JFrame {
                 } else if (received.contains("#limit")) {
                     JOptionPane.showMessageDialog(this, "Sorry, Room chat is full");
                     this.dispose();
-                } ///////////////////
-                else if (received.contains("#option")) {//moi them vao
+                } else if (received.contains("#option")) {
                     username = received.substring(7);
                     StringTokenizer st = new StringTokenizer(username, ";");
                     String a = st.nextToken();
-                    int kq = JOptionPane.showConfirmDialog(this, "Do you want to accept chat with someone ?");
-                    if (kq == 0) {//yes
+                    int result = JOptionPane.showConfirmDialog(this, "Do you want to accept chat with someone ?");
+                    if (result == 0) {
                         new Client(a, s).setVisible(true);
                         this.dispose();
                     }
-                    if (kq == 1) {//no
+                    if (result == 1) {
                         out.writeUTF("disconnected");
-                       // this.dispose();
                     }
-                    if (kq == 2) {//cancel
+                    if (result == 2) {
                         out.writeUTF("disconnected");
-                        //this.dispose();
                     }
-                } ///////////////////////////////
-                else {
+                } else {
                     new Client(username, s).setVisible(true);
                     this.dispose();
                 }
