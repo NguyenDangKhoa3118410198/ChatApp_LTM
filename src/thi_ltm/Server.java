@@ -127,22 +127,7 @@ public class Server extends javax.swing.JFrame {
                             new PrepareClientList().start();
                         }
 
-                    } else {//chat All
-//                        Set k = listClient.keySet();
-//                        Iterator itr = k.iterator();
-//                        while (itr.hasNext()) {
-//                            String key = (String) itr.next();
-//                            if (!key.equalsIgnoreCase(username)) {
-//                                try {
-//                                    new DataOutputStream(((Socket) listClient.get(key)).getOutputStream()).writeUTF("< " + username + " to All >" + i);
-//                                } catch (Exception e) {
-//                                    //System.out.println(e);
-//                                    listClient.remove(key);
-//                                    listClientJoined.append(key + ": disconnected!");
-//                                    new PrepareClientList().start();
-//                                }
-//                            }
-//                        }
+                    } else {
                     }
                 } catch (Exception ex) {
                     try {
