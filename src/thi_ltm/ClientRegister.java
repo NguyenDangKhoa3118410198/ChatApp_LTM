@@ -126,7 +126,7 @@ public class ClientRegister extends javax.swing.JFrame {
                     username = received.substring(7);
                     StringTokenizer st = new StringTokenizer(username, ";");
                     String a = st.nextToken();
-                    int result = JOptionPane.showConfirmDialog(this, "Do you want to accept chat with someone ?");
+                    int result = JOptionPane.showConfirmDialog(this, "Do you want to accept a chat with someone ?");
                     if (result == 0) {
                         new Client(a, s).setVisible(true);
                         this.dispose();
