@@ -49,7 +49,7 @@ public class ClientRegister extends javax.swing.JFrame {
         jLabel1.setText("Client Register");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel2.setText("Your username :");
+        jLabel2.setText("Your nickname :");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -60,7 +60,7 @@ public class ClientRegister extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(btnConnect, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -107,24 +107,25 @@ public class ClientRegister extends javax.swing.JFrame {
             String regex = "^[A-Za-z]\\w{1,20}$";
             Pattern p = Pattern.compile(regex);
 
-            String username = txtUsername.getText();
-            username = username.replaceAll(" ", "");
-            Matcher m = p.matcher(username);
-            if (!username.isEmpty() && m.matches() == true) {
+            String nickname = txtUsername.getText();
+            nickname = nickname.replaceAll(" ", "");
+            Matcher m = p.matcher(nickname);
+            if (!nickname.isEmpty() && m.matches() == true) {
                 Socket s = new Socket("localhost", 1108);
                 DataInputStream in = new DataInputStream(s.getInputStream());
                 DataOutputStream out = new DataOutputStream(s.getOutputStream());
-                out.writeUTF(username);
+                out.writeUTF(nickname);
 
                 String received = new DataInputStream(s.getInputStream()).readUTF();
-                if (received.equals("Username Are Already Registered !!!")) {
-                    JOptionPane.showMessageDialog(this, "Username Are Already Registered !!!\n");
-                } else if (received.contains("#limit")) {
+                if (received.equals("Nickname Are Already Registered !!!")) {
+                    JOptionPane.showMessageDialog(this, "Nickname Are Already Registered !!!\n");
+                } 
+                else if (received.contains("#limit")) {
                     JOptionPane.showMessageDialog(this, "Sorry, Room chat is full");
                     this.dispose();
                 } else if (received.contains("#option")) {
-                    username = received.substring(7);
-                    StringTokenizer st = new StringTokenizer(username, ";");
+                    nickname = received.substring(7);
+                    StringTokenizer st = new StringTokenizer(nickname, ";");
                     String a = st.nextToken();
                     int result = JOptionPane.showConfirmDialog(this, "Do you want to accept a chat with someone ?");
                     if (result == 0) {
@@ -138,10 +139,11 @@ public class ClientRegister extends javax.swing.JFrame {
                         out.writeUTF("disconnected");
                     }
                 } else {
-                    new Client(username, s).setVisible(true);
+                    new Client(nickname, s).setVisible(true);
                     this.dispose();
                 }
-            } else {
+            } 
+            else {
                 JOptionPane.showMessageDialog(this, "Username is empty or invalid username \n");
                 txtUsername.setText("");
             }

@@ -42,7 +42,7 @@ public class Server extends javax.swing.JFrame {
                     if (listClient.containsKey(username)) {
                         DataOutputStream out = new DataOutputStream(s.getOutputStream());
                         DataInputStream in = new DataInputStream(s.getInputStream());
-                        out.writeUTF("Username Are Already Registered !!!");
+                        out.writeUTF("Nickname Are Already Registered !!!");
                         out.flush();
                     } else if (count >= 2) {
                         DataOutputStream out = new DataOutputStream(s.getOutputStream());
@@ -116,7 +116,8 @@ public class Server extends javax.swing.JFrame {
                         String otherUser = st.nextToken();
                         String content = st.nextToken();
                         try {
-                            new DataOutputStream(((Socket) listClient.get(otherUser)).getOutputStream()).writeUTF("< " + username + " to " + otherUser + " > " + content);
+                            new DataOutputStream(((Socket) listClient.get(otherUser)).getOutputStream())
+                                    .writeUTF("< " + username + " to " + otherUser + " > " + content);
                         } catch (Exception e) {
                             System.out.println(e);
                         }
